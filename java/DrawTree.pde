@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 // 再帰呼び出し回数
 final int RECURSIVE_CALLS = 10;
 // ウィンドウサイズ
@@ -13,16 +16,21 @@ final float MAX_BRANCH_LEN = 150;
 // 枝の回転角度
 final float MIN_ANGLE_RAD = radians(5);
 final float MAX_ANGLE_RAD = radians(30);
+// 画像保存先のパス
+final String DIR_PATH = sketchPath() + "/";
+// 画像のファイル名
+final String IMG_NAME = "tree";
 
 // 初期設定
-void setup() {
+void settings() {
     size(WINDOW_WIDTH, WINDOW_HEIGHT);
-    background(BACKGROUND_COLOR);
 }
 
 // 描画処理
 void draw() {
-    // 原点を幹の書き始めの位置に移動
+    // 背景色を設定
+    background(BACKGROUND_COLOR);
+    // 幹の根元に移動
     translate(width / 2, height);
     // 枝の描画処理呼び出し
     drawBranch(MAX_BRANCH_LEN, RECURSIVE_CALLS);
@@ -30,6 +38,7 @@ void draw() {
     noLoop();
 }
 
+// 枝描画処理
 void drawBranch(float branchLen, int n) {
     // 枝の色を設定
     stroke(random(256), random(256), random(256));
@@ -48,6 +57,7 @@ void drawBranch(float branchLen, int n) {
     }
 }
 
+// drawBranch()呼び出し処理
 void callDrawBranch(float angle, float branchLen, int n) {
     // 座標を保存
     pushMatrix();
@@ -57,4 +67,28 @@ void callDrawBranch(float angle, float branchLen, int n) {
     drawBranch(random(MIN_BRANCH_LEN, branchLen), n - 1);
     // 座標を取り出す
     popMatrix();
+}
+
+// マウス押下時の処理
+void mousePressed() {
+    // 再描画
+    redraw();
+}
+
+// キー押下時の処理
+void keyPressed() {    
+    // Sキー押下で画像を保存する
+    if (key == 's') {
+        saveImg();
+    }
+}
+
+// 画像保存処理
+void saveImg() {
+  final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+  final String timestamp = sdf.format(new Date());
+  final String imgPath = DIR_PATH + IMG_NAME + "_" + timestamp + ".png";
+  save(imgPath);
+  // コンソール出力
+  println("Image saved to: " + imgPath);
 }
