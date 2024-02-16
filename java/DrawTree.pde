@@ -17,7 +17,7 @@ final float MAX_BRANCH_LEN = 150;
 final float MIN_ANGLE_RAD = radians(5);
 final float MAX_ANGLE_RAD = radians(30);
 // 画像保存先のパス
-final String DIR_PATH = sketchPath() + "/";
+final String DIR_PATH = sketchPath() + "\\";
 // 画像のファイル名
 final String IMG_NAME = "tree";
 
